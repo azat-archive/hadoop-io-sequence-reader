@@ -11,6 +11,8 @@
 
 #include <stdint.h> // uint_32
 
+#include "hex_helper.h"
+
 enum KeyValueType {
     TextType = 0,
     BytesType = 1,
@@ -94,7 +96,12 @@ private:
     static std::string read(std::istream* stream)
     {
         char smallBuffer[1024];
-        stream->read(smallBuffer, 6);
+        if (!stream->read(smallBuffer, 6)) {
+            throw std::string("read: End of file reached");
+        }
+#ifdef DEBUG
+        std::cerr << "In small buffer " << Hex(smallBuffer, 5) << std::endl;
+#endif
 
         int32_t len = readVLong(stream);
         stream->read(smallBuffer, 1);
