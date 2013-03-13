@@ -117,6 +117,9 @@ private:
             free(buffer);
             throw std::string("read: End of file reached");
         }
+#ifdef DEBUG
+        std::cerr << "Read in hex '" << Hex(buffer, len) << "'" << std::endl;
+#endif
 
         std::string ret = buffer;
         free(buffer);
