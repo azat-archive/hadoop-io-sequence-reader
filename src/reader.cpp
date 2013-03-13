@@ -76,7 +76,7 @@ void Reader::initialize()
     if (memcmp(SEQFILE_VALUE_CLASS_NAME, buffer, sizeof(SEQFILE_VALUE_CLASS_NAME)) != 0) {
         throw std::string("SEQFILE_VALUE_CLASS_NAME is malformed");
     }
-    m_stream->read(buffer,      86
+    m_stream->read(buffer,      85
                                 - sizeof(SEQFILE_VALUE_CLASS_NAME)
                                 - sizeof(SEQFILE_VERSION_HEADER));
 

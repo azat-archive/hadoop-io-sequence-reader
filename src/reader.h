@@ -96,15 +96,14 @@ private:
     static std::string read(std::istream* stream)
     {
         char smallBuffer[1024];
-        if (!stream->read(smallBuffer, 6)) {
+        if (!stream->read(smallBuffer, 8)) {
             throw std::string("read: End of file reached");
         }
 #ifdef DEBUG
-        std::cerr << "In small buffer " << Hex(smallBuffer, 5) << std::endl;
+        std::cerr << "In small buffer " << Hex(smallBuffer, 8) << std::endl;
 #endif
 
         int32_t len = readVLong(stream);
-        stream->read(smallBuffer, 1);
 #ifdef DEBUG
         std::cerr << "Readed " << len << " bytes from stream" << std::endl;
 #endif
