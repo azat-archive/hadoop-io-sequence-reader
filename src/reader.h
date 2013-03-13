@@ -102,10 +102,14 @@ private:
 #ifdef DEBUG
         std::cerr << "In small buffer " << Hex(smallBuffer, 8) << std::endl;
 #endif
+        if (memcmp(smallBuffer, "\xff\xff\xff\xff", 4) == 0) {
+            stream->read(smallBuffer, 12);
+            return read(stream);
+        }
 
         int32_t len = readVLong(stream);
 #ifdef DEBUG
-        std::cerr << "Readed " << len << " bytes from stream" << std::endl;
+        std::cerr << "Readed " << std::dec << len << " bytes from stream" << std::endl;
 #endif
         char *buffer = (char *)calloc(len, 1);
 
