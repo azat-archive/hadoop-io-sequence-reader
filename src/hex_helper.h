@@ -21,7 +21,7 @@ struct Hex
             if (isprint(aschar[i]))  {
                 os << aschar[i];
             } else {
-                os << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int> (aschar[i]);
+                os << "\\x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int> (aschar[i]);
             }
         }
         return os;
