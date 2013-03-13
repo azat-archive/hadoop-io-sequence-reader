@@ -121,7 +121,7 @@ private:
         std::cerr << "Read in hex '" << Hex(buffer, len) << "'" << std::endl;
 #endif
 
-        std::string ret = buffer;
+        std::string ret(buffer, len);
         free(buffer);
 
         return ret;
