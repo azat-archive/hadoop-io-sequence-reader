@@ -24,38 +24,6 @@ std::ostream& operator<<(std::ostream& out, const Reader& reader)
     return out;
 }
 
-KeyValueType Reader::javaClassToKeyValueType(const std::string &clazz)
-{
-    if (clazz == "org.apache.hadoop.io.Text") {
-        return TextType;
-    }
-    if (clazz == "org.apache.hadoop.io.BytesWritable") {
-        return BytesType;
-    }
-    if (clazz == "org.apache.hadoop.io.ByteWritable") {
-        return ByteType;
-    }
-    if (clazz == "org.apache.hadoop.io.BooleanWritable") {
-        return BoolType;
-    }
-    if (clazz == "org.apache.hadoop.io.IntWritable") {
-        return IntType;
-    }
-    if (clazz == "org.apache.hadoop.io.LongWritable") {
-        return LongType;
-    }
-    if (clazz == "org.apache.hadoop.io.FloatWritable") {
-        return FloatType;
-    }
-    if (clazz == "org.apache.hadoop.io.DoubleWritable") {
-        return DoubleType;
-    }
-    if (clazz == "org.apache.hadoop.io.MD5Hash") {
-        return MD5HashType;
-    }
-    return UnknownType;
-}
-
 void Reader::initialize()
 {
     const uint8_t SEQFILE_VERSION_HEADER[4] = {'S', 'E', 'Q', 6};
@@ -81,4 +49,39 @@ void Reader::initialize()
                                 - sizeof(SEQFILE_VERSION_HEADER));
 
     m_initialized = true;
+}
+
+std::string Reader::read(std::istream* stream)
+{
+    char smallBuffer[1024];
+    if (!stream->read(smallBuffer, 8)) {
+        throw std::string("read: End of file reached");
+    }
+#ifdef DEBUG
+    std::cerr << "In small buffer " << Hex(smallBuffer, 8) << std::endl;
+#endif
+    // Seems that it is "sync"
+    if (memcmp(smallBuffer, "\xff\xff\xff\xff", 4) == 0) {
+        stream->read(smallBuffer, 12);
+        return read(stream);
+    }
+
+    int32_t len = readVLong(stream);
+#ifdef DEBUG
+    std::cerr << "Readed " << std::dec << len << " bytes from stream" << std::endl;
+#endif
+    char *buffer = (char *)calloc(len, 1);
+
+    if (!stream->read(buffer, len)) {
+        free(buffer);
+        throw std::string("read: End of file reached");
+    }
+#ifdef DEBUG
+    std::cerr << "Read in hex '" << Hex(buffer, len) << "'" << std::endl;
+#endif
+
+    std::string ret(buffer, len);
+    free(buffer);
+
+    return ret;
 }
