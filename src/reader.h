@@ -1,4 +1,17 @@
 
+/**
+ * This file is part of the hadoop-io-sequence-reader package.
+ *
+ * Based on
+ * https://github.com/decster/nativetask/blob/master/src/main/native/src/util/WritableUtils.cc
+ * https://github.com/decster/nativetask/blob/master/src/main/native/src/util/WritableUtils.h
+ *
+ * (c) Azat Khuzhin <a3at.mail@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 #pragma once
 
 #include <fstream>

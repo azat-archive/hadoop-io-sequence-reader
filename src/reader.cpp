@@ -1,4 +1,13 @@
 
+/**
+ * This file is part of the hadoop-io-sequence-reader package.
+ *
+ * (c) Azat Khuzhin <a3at.mail@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 #include "reader.h"
 
 Reader::Reader(std::ifstream *stream)
