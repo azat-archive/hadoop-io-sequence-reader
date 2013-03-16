@@ -4,6 +4,8 @@ Apache Hadoop's SequenceFile Wet Reader.
 ```c
 Don't use it in production purpose.
 It was tested on 1 billion strings, but I can't say that it is fully compatible with official version.
+
+Use at your own risk
 ```
 
 TODO:
